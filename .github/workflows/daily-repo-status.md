@@ -1,58 +1,33 @@
 ---
-description: |
-  This workflow creates daily repo status reports. It gathers recent repository
-  activity (issues, PRs, discussions, releases, code changes) and generates
-  engaging GitHub issues with productivity insights, community highlights,
-  and project recommendations.
-
 on:
-  schedule: daily
+  schedule:
+    - cron: '0 9 * * *'
   workflow_dispatch:
-
 permissions:
-  contents: read
-  issues: read
-  pull-requests: read
-
-network: defaults
-
+  issues: write
+engine: copilot
 tools:
   github:
-    # If in a public repo, setting `lockdown: false` allows
-    # reading issues, pull requests and comments from 3rd-parties
-    # If in a private repo this has no particular effect.
-    lockdown: false
-
+    toolsets: [issues, pulls, releases, code]
 safe-outputs:
-  mentions: false
-  allowed-github-references: []
-  create-issue:
-    title-prefix: "[repo-status] "
-    labels: [report, daily-status]
-    close-older-issues: true
-source: githubnext/agentics/workflows/daily-repo-status.md@613b585d37d53ee994d85ad27e8e62ad0022ae32
-engine: copilot
+  - type: issue
 ---
 
-# Daily Repo Status
+# Daily Repository Status Report
 
-Create an upbeat daily status report for the repo as a GitHub issue.
+Gather the recent activity from this repository for the last 24 hours, including:
 
-## What to include
+- New and closed issues
+- Opened, merged, and closed pull requests
+- New releases or tags
+- Notable code changes and commits
 
-- Recent repository activity (issues, PRs, discussions, releases, code changes)
-- Progress tracking, goal reminders and highlights
-- Project status and recommendations
-- Actionable next steps for maintainers
+Then create a new GitHub issue titled "Daily Status Report - {today's date}" with the following sections:
 
-## Style
+1. **Summary** - A brief overview of the day's activity
+2. **Issues** - New issues opened, issues closed, and any trending discussions
+3. **Pull Requests** - PRs opened, merged, or closed with short descriptions
+4. **Releases** - Any new releases or tags
+5. **Highlights** - Notable contributions or milestones
 
-- Be positive, encouraging, and helpful 🌟
-- Use emojis moderately for engagement
-- Keep it concise - adjust length based on actual activity
-
-## Process
-
-1. Gather recent activity from the repository
-2. Study the repository, its issues and its pull requests
-3. Create a new GitHub issue with your findings and insights
+Keep the tone concise and informative. If there was no activity, note that the repository was quiet.
