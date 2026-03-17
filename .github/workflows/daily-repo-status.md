@@ -3,14 +3,12 @@ on:
   schedule:
     - cron: '0 9 * * *'
   workflow_dispatch:
-permissions:
-  issues: write
 engine: copilot
 tools:
   github:
-    toolsets: [issues, pulls, releases, code]
+    toolsets: [issues, pull_requests, repos, search]
 safe-outputs:
-  - type: issue
+  create-issue: null
 ---
 
 # Daily Repository Status Report
